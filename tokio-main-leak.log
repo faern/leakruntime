@@ -1,0 +1,18 @@
+The following was obtained by running:
+$ cargo +1.39.0 valgrind --bin leakruntime --features tokio
+
+   Analyzing `target/debug/leakruntime`
+       Error Leaked 576 B
+        Info at calloc (vg_replace_malloc.c:762)
+             at allocate_dtv
+             at _dl_allocate_tls
+             at pthread_create@@GLIBC_2.2.5
+             at std::sys::unix::thread::Thread::new (thread.rs:67)
+             at std::thread::Builder::spawn_unchecked (mod.rs:489)
+             at std::thread::Builder::spawn (mod.rs:382)
+             at tokio::runtime::blocking::pool::Spawner::spawn_thread (pool.rs:205)
+             at tokio::runtime::blocking::pool::Spawner::spawn (pool.rs:190)
+             at tokio::runtime::blocking::pool::spawn_blocking (pool.rs:68)
+             at tokio::runtime::thread_pool::worker::Launch::launch (worker.rs:285)
+             at tokio::runtime::builder::Builder::build_threaded_runtime::{{closure}} (builder.rs:493)
+     Summary Leaked 576 B total
